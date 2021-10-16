@@ -1,7 +1,11 @@
 package mo.spring.ms.hpccustomerservice;
 
+import mo.spring.ms.hpccustomerservice.entities.Customer;
+import mo.spring.ms.hpccustomerservice.repositories.CustomerRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class HpcCustomerServiceApplication {
@@ -10,4 +14,16 @@ public class HpcCustomerServiceApplication {
         SpringApplication.run(HpcCustomerServiceApplication.class, args);
     }
 
+    @Bean
+    CommandLineRunner start(CustomerRepository customerRepository){
+        return args -> {
+            customerRepository.save(new Customer(null, "Moussa", "moussa@gmail.com"));
+            customerRepository.save(new Customer(null, "Customer1", "customer1@gmail.com"));
+            customerRepository.save(new Customer(null, "Customer2", "customer2@gmail.com"));
+
+            customerRepository.findAll().forEach(c ->
+                System.out.println(c.toString())
+            );
+        };
+    }
 }
